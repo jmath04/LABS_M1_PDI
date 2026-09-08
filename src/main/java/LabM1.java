@@ -1,12 +1,11 @@
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 public class LabM1 {
-    public static void Inspect() {
+    public static void Inspect(String img) {
         try {
-            File arquivo = new File("images/input/Kurama.jpg");
+            File arquivo = new File(img);
             BufferedImage imagem = ImageIO.read(arquivo);
             int largura = imagem.getWidth();
             int altura = imagem.getHeight();
@@ -22,32 +21,39 @@ public class LabM1 {
                 RtypeImg = "GRAYSCALE";
             }
 
-            System.out.println(largura);
-            System.out.println(altura);
-            System.out.println(numCanais);
-            System.out.println(RtypeImg);
-            System.out.println(largura * altura);
-            System.out.println(imagem.getRGB(0, 0));
+            int min = 255;
+            int max = 0;
+            long soma = 0;
+
+            for (int i = 0; i < altura; i++) {
+                for (int j = 0; j < largura; j++) {
+                    int pixelBruto = imagem.getRGB(j, i);
+
+                    int vermelho = (pixelBruto >> 16) & 0xff;
+                    int verde    = (pixelBruto >> 8) & 0xff;
+                    int azul     = pixelBruto & 0xff;
+
+                    int intensidade = (vermelho + verde + azul) / 3;
+
+                    if (intensidade < min) min = intensidade;
+                    if (intensidade > max) max = intensidade;
+                    soma += intensidade;
+                }
+            }
+
+            long media = soma / (largura * altura);
+
+            System.out.println("width=" + largura);
+            System.out.println("height=" + altura);
+            System.out.println("channels=" + numCanais);
+            System.out.println("type=" + RtypeImg);
+            System.out.println("pixels=" + (largura * altura));
+            System.out.println("min=" + min);
+            System.out.println("max=" + max);
+            System.out.println("avg=" + media);
 
         } catch (Exception e) {
             System.out.println("Erro ao ler o arquivo");
         }
     }
 }
-
-    /*
-    public int retornaValMin(BufferedImage imagem){
-        int menor_pixel = 256;
-        for (int i = 0; i < imagem.getHeight(); i++) {
-            for (int j = 0; j < imagem.getWidth(); j++) {
-                if (imagem.getRGB(j, i) > menor_pixel) {
-                    menor_pixel = imagem.getRGB(j, i);
-                }
-            }
-        }
-
-
-    }
-}
-     */
-

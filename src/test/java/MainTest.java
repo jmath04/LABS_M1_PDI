@@ -8,6 +8,6 @@ public class MainTest {
 
     @Test
     public void TesteAlturaELargura() {
-        LabM1.Inspect();
+        LabM1.Inspect("/images/input/Kurama.jpg");
     }
 }
