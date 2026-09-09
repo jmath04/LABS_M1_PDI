@@ -56,4 +56,26 @@ public class LabM1 {
             System.out.println("Erro ao ler o arquivo");
         }
     }
+
+    public static void copiar(String input, String output) {
+        try {
+            BufferedImage imgOrig = ImageIO.read(new File(input));
+            int largura = imgOrig.getWidth();
+            int altura = imgOrig.getHeight();
+
+            BufferedImage imgSaida = new BufferedImage(largura, altura, BufferedImage.TYPE_INT_RGB);
+
+            for (int i = 0; i < altura; i++) {
+                for (int j = 0; j < largura; j++) {
+                    int pixel = imgOrig.getRGB(j, i);
+                    imgSaida.setRGB(j, i, pixel);
+                }
+            }
+            ImageIO.write(imgSaida, "jpg", new File(output));
+            System.out.println("Imagem copiada com sucesso para: " + output);
+
+        } catch (Exception e) {
+            System.out.println("Erro ao processar a imagem: " + e.getMessage());
+        }
+    }
 }
