@@ -1,6 +1,6 @@
 {
 "schema_version": 1,
-"lab": "m1.1",
+"lab": ["m1.1","m1.2","m1.3"],
 "language": "java",
 "student" : {
         "name": "João Matheus de Oliveira Vieira"

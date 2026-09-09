@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="MainTest" time="0.061" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="MainTest" time="0.229" tests="10" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="26"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -12,7 +12,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="BR"/>
     <property name="sun.boot.library.path" value="/home/joao/.jdks/openjdk-26.0.1/lib"/>
-    <property name="sun.java.command" value="/home/joao/Área de trabalho/Processament_de_imagens/lab_m1_1_JoaoMatheus/target/surefire/surefirebooter-20260908222735010_3.jar /home/joao/Área de trabalho/Processament_de_imagens/lab_m1_1_JoaoMatheus/target/surefire 2026-09-08T22-27-34_934-jvmRun1 surefire-20260908222735010_1tmp surefire_0-20260908222735010_2tmp"/>
+    <property name="sun.java.command" value="/home/joao/Área de trabalho/Processament_de_imagens/lab_m1_1_JoaoMatheus/target/surefire/surefirebooter-20260908225101479_3.jar /home/joao/Área de trabalho/Processament_de_imagens/lab_m1_1_JoaoMatheus/target/surefire 2026-09-08T22-51-01_394-jvmRun1 surefire-20260908225101479_1tmp surefire_0-20260908225101479_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/home/joao/Área de trabalho/Processament_de_imagens/lab_m1_1_JoaoMatheus/target/test-classes:/home/joao/Área de trabalho/Processament_de_imagens/lab_m1_1_JoaoMatheus/target/classes:/home/joao/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/home/joao/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/home/joao/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/joao/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/home/joao/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/joao/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/home/joao/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/home/joao/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/home/joao/.m2/repository/info/picocli/picocli/4.7.5/picocli-4.7.5.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -27,7 +27,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
-    <property name="surefire.real.class.path" value="/home/joao/Área de trabalho/Processament_de_imagens/lab_m1_1_JoaoMatheus/target/surefire/surefirebooter-20260908222735010_3.jar"/>
+    <property name="surefire.real.class.path" value="/home/joao/Área de trabalho/Processament_de_imagens/lab_m1_1_JoaoMatheus/target/surefire/surefirebooter-20260908225101479_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="26.0.1+8-34"/>
     <property name="user.name" value="joao"/>
@@ -54,8 +54,51 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="70.0"/>
   </properties>
-  <testcase name="TesteAlturaELargura" classname="MainTest" time="0.036">
-    <system-out><![CDATA[Erro ao ler o arquivo
+  <testcase name="testarCopiar" classname="MainTest" time="0.101">
+    <system-out><![CDATA[Imagem copiada com sucesso para: /tmp/junit8316548140379034118/saida_copia.jpg
+]]></system-out>
+  </testcase>
+  <testcase name="testarLaplaciano" classname="MainTest" time="0.011">
+    <system-out><![CDATA[Laplaciano gerado: /tmp/junit1857917772508274296/saida_laplaciano_bruto.jpg e /tmp/junit1857917772508274296/saida_laplaciano_realce.jpg
+]]></system-out>
+  </testcase>
+  <testcase name="testarLimiarizacao" classname="MainTest" time="0.011">
+    <system-out><![CDATA[Limiarização aplicada com sucesso: /tmp/junit7801757481791793256/saida_limiar.jpg
+]]></system-out>
+  </testcase>
+  <testcase name="testarAjusteContraste" classname="MainTest" time="0.009">
+    <system-out><![CDATA[Contraste ajustado com sucesso: /tmp/junit17907124644030971291/saida_contraste.jpg
+]]></system-out>
+  </testcase>
+  <testcase name="testarSuavizacao" classname="MainTest" time="0.011">
+    <system-out><![CDATA[Suavização aplicada: /tmp/junit7812174060540181825/saida_suave.jpg
+]]></system-out>
+  </testcase>
+  <testcase name="testarGerarHistograma" classname="MainTest" time="0.017">
+    <system-out><![CDATA[Histograma salvo com sucesso em: images/output/histograma.csv
+]]></system-out>
+  </testcase>
+  <testcase name="testarInspect" classname="MainTest" time="0.006">
+    <system-out><![CDATA[width=10
+height=10
+channels=3
+type=RGB
+pixels=100
+min=1
+max=211
+avg=107
+]]></system-out>
+  </testcase>
+  <testcase name="testarAjusteBrilho" classname="MainTest" time="0.007">
+    <system-out><![CDATA[Brilho ajustado com sucesso: /tmp/junit4644823809502321176/saida_brilho.jpg
+]]></system-out>
+  </testcase>
+  <testcase name="testarNegativo" classname="MainTest" time="0.004">
+    <system-out><![CDATA[Filtro negativo aplicado: /tmp/junit8583633810736649205/saida_negativo.jpg
+]]></system-out>
+  </testcase>
+  <testcase name="testarSobel" classname="MainTest" time="0.005">
+    <system-out><![CDATA[Filtros Sobel gerados com sucesso!
 ]]></system-out>
   </testcase>
 </testsuite>
