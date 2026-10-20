@@ -1,4 +1,4 @@
-# Processamento de Imagens — Laboratórios M1 (M1.1, M1.2 e M1.3)
+# Processamento de Imagens - Laboratórios M1 e M2
 
 **Autor:** João Matheus de Oliveira Vieira  
 **Curso:** Ciência da Computação  
@@ -9,102 +9,129 @@
 
 ## Sobre o Projeto
 
-Este projeto unifica as atividades dos laboratórios da M1 em uma única aplicação de linha de comando (**CLI**) desenvolvida em Java. O sistema foi construído com percurso explícito de pixels e implementação manual de algoritmos de matrizes (convolução), cumprindo estritamente as regras de **não utilização de bibliotecas prontas** para processamento de imagens (como OpenCV ou funções nativas de filtros).
+Este projeto consiste em uma aplicação unificada de linha de comando (CLI) desenvolvida em Java, contemplando todas as atividades práticas dos módulos M1 e M2 da disciplina de PDI. 
 
-A ferramenta é dividida em três frentes principais:
-1. **M1.1:** Inspeção estrutural, metadados e contagem estatística de pixels.
-2. **M1.2:** Transformações pontuais de intensidade (brilho, contraste, negativo, limiarização e histograma manual).
-3. **M1.3:** Filtragem espacial e convolução por vizinhança (suavização, Laplaciano e detectores de borda Sobel).
+* **Módulo 1 (M1.1 a M1.3):** Implementação manual de algoritmos de percurso de pixels, transformações de intensidade (brilho, contraste, limiarização) e filtragem espacial/convolução (suavização, Laplaciano, Sobel), respeitando a restrição de não utilizar bibliotecas de alto nível.
+* **Módulo 2 (M2.1 e M2.2):** Integração com OpenCV para segmentação avançada, rotulação de componentes conexos e análise morfológica (Abertura e Fechamento), extraindo propriedades métricas das imagens (CSVs e JSON).
 
 ---
 
-## Pré-requisitos
+## Pré-requisitos e Dependências
 
-Para compilar e executar este projeto, você precisará ter instalado em sua máquina:
+Para compilar e executar o projeto, você precisará apenas de:
 - **Java Development Kit (JDK):** Versão 11 ou superior.
-- **Apache Maven:** Para o gerenciamento de dependências e empacotamento.
+- **Apache Maven:** Para gerenciamento do build.
 
+> **Nota sobre o OpenCV:** A biblioteca OpenCV (`org.openpnp:opencv`) está declarada no `pom.xml` e é empacotada automaticamente pelo Maven. Não é necessária nenhuma instalação prévia do OpenCV no sistema operacional, garantindo total portabilidade entre Windows, Linux e macOS.
 
-## Como Compilar
+---
 
-Na raiz do projeto (onde está localizado o arquivo `pom.xml`), execute o seguinte comando no terminal para limpar compilações antigas e gerar o pacote executável (`.jar`):
+## Como Compilar e Testar
+
+Na raiz do projeto (onde está o `pom.xml`), limpe compilações anteriores, execute os testes unitários e empacote o executável com o comando:
 
 ```bash
 mvn clean package
 ```
 
-O arquivo executável final será gerado no diretório `target/pdi-lab.jar`.
+O arquivo final será gerado em `target/pdi-lab.jar`.
 
 ---
 
-## Como Executar (CLI)
+## Uso Geral (CLI)
 
-A execução padrão segue a estrutura abaixo, informando o arquivo de entrada (`--input`) e a operação desejada (`--operation`):
+A sintaxe base da aplicação é:
 
 ```bash
-java -jar target/pdi-lab.jar --input <caminho_imagem> --operation <nome_operacao> [argumentos_opcionais]
-
+java -jar target/pdi-lab.jar --input <caminho> --operation <nome_operacao> [argumentos_opcionais]
 ```
 
-### Argumentos Disponíveis:
-
-* `--input <path>`: *(Obrigatório)* Caminho da imagem de entrada (ex: `images/input/Kurama.jpg`).
-* `--operation <nome>`: *(Obrigatório)* Nome da operação que deseja executar.
-* `--output <path>`: *(Opcional)* Caminho onde a imagem de saída será salva. Caso omitido, o sistema gera um arquivo padrão na pasta `images/output/`.
-* `--value <num>`: *(Opcional)* Valor numérico de parâmetro (usado em brilho, contraste e limiar).
-* `--filtro <tipo>`: *(Opcional)* Escolha do kernel para suavização: `media3`, `ponderada3` ou `media5`. *(Padrão: media3)*
-* `--borda <estratégia>`: *(Opcional)* Tratamento de borda na convolução: `copiar` ou `replicar`. *(Padrão: replicar)*
+### Argumentos da CLI:
+- `--input <path>`: (Obrigatório) Caminho da imagem ou máscara de entrada.
+- `--operation <nome>`: (Obrigatório) Operação a ser executada.
+- `--output <path>`: (Opcional) Caminho de saída (ou prefixo, no caso da M2.2).
+- `--value <num>`: (M1) Valor numérico para brilho, contraste ou limiar.
+- `--filtro <tipo>`: (M1) Kernel de suavização (`media3`, `ponderada3`, `media5`).
+- `--borda <tipo>`: (M1) Tratamento de borda na convolução (`copiar`, `replicar`).
+- `--method <tipo>`: (M2) Método de segmentação OpenCV (`fixed`, `otsu`, `adaptive`). Padrão: `fixed`.
+- `--threshold <num>`: (M2) Valor de corte para o método `fixed`. Padrão: `128.0`.
+- `--connectivity <4|8>`: (M2) Conectividade para análise de componentes. Padrão: `8`.
+- `--min-area <num>`: (M2) Área mínima (em pixels) para filtrar componentes. Padrão: `0`.
 
 ---
 
-## Lista de Operações por Laboratório
+## Exemplos de Execução - Módulo 2 (OpenCV)
 
-### Módulo 1.1: Inspeção e Estrutura
+### M2.1: Segmentação e Geração de Máscara Binária
+Gera uma máscara no formato obrigatório `.png` (sem perdas), convertendo a imagem em fundo (0) e objeto (255).
 
-* **Inspecionar metadados e pixels:**
-```bash
-java -jar target/pdi-lab.jar --input images/input/Kurama.jpg --operation inspect
+* **Método Fixo (Limiar manual):**
+  ```bash
+  java -jar target/pdi-lab.jar --input images/input/Kurama.jpg --output images/output/mask_fixed.png --operation segment --method fixed --threshold 120
+  ```
+* **Método Otsu (Limiar automático):**
+  ```bash
+  java -jar target/pdi-lab.jar --input images/input/Kurama.jpg --output images/output/mask_otsu.png --operation segment --method otsu
+  ```
+* **Método Adaptativo (Iluminação irregular):**
+  ```bash
+  java -jar target/pdi-lab.jar --input images/input/Kurama.jpg --output images/output/mask_adapt.png --operation segment --method adaptive
+  ```
 
-```
+### M2.2: Análise de Componentes e Morfologia
+Lê uma máscara binária, aplica uma sequência morfológica (Abertura seguida de Fechamento) e extrai estatísticas dos componentes conexos.
 
+```bash
+java -jar target/pdi-lab.jar --input images/output/mask_fixed.png --output results/kurama --operation analyze --connectivity 8 --min-area 50
+```
+> O argumento `--output` na operação `analyze` funciona como um prefixo. O comando acima gerará automaticamente os seguintes arquivos na pasta `results/`:
+> * `kurama_initial.csv` (Métricas antes da morfologia)
+> * `kurama_final.csv` (Métricas após morfologia e filtro de área)
+> * `kurama_morph1_open.png` (Resultado do 1º estágio: Abertura)
+> * `kurama_morph2_close.png` (Resultado do 2º estágio: Fechamento)
+> * `kurama_labels.png` (Imagem de visualização com componentes coloridos)
+> * `kurama_summary.json` (Resumo geral das contagens e parâmetros)
 
-* **Copiar imagem (pixel a pixel):**
-```bash
-java -jar target/pdi-lab.jar --input images/input/Kurama.jpg --output images/output/copia.jpg --operation copy
+---
 
-```
-### Módulo 1.2: Transformações Pontuais
-* **Ajuste de Brilho** (Ex: somar 50 à intensidade):
-```bash
-java -jar target/pdi-lab.jar --input images/input/Kurama.jpg --output images/output/brilho.jpg --operation brilho --value 50
-```
-* **Ajuste de Contraste** (Ex: fator $\alpha = 1.5$):
-```bash
-java -jar target/pdi-lab.jar --input images/input/Kurama.jpg --output images/output/contraste.jpg --operation contraste --value 1.5
-```
-* **Inverter Negativo:**
-```bash
-java -jar target/pdi-lab.jar --input images/input/Kurama.jpg --output images/output/negativo.jpg --operation negativo
-```
-* **Limiarização Binária** (Ex: Threshold $T = 128$):
-```bash
-java -jar target/pdi-lab.jar --input images/input/Kurama.jpg --output images/output/limiar.jpg --operation limiarizacao --value 128
-```
-* **Gerar Histograma Manual** (Gera o arquivo `images/output/histograma.csv`):
-```bash
-java -jar target/pdi-lab.jar --input images/input/Kurama.jpg --operation histograma
-```
-### Módulo 1.3: Convolução e Filtragem Espacial
-* **Suavização / Filtro de Média:**
-```bash
-java -jar target/pdi-lab.jar --input images/input/Kurama.jpg --output images/output/suave.jpg --operation suavizacao --filtro ponderada3 --borda replicar
-```
-* **Filtro Laplaciano** (Gera automaticamente a versão bruta e a imagem realçada):
-```bash
-java -jar target/pdi-lab.jar --input images/input/Kurama.jpg --output images/output/laplaciano.jpg --operation laplaciano --borda replicar
+## Exemplos de Execução - Módulo 1 (Implementação Manual)
 
-```
-* **Detector de Bordas Sobel** (Gera automaticamente 4 arquivos: $G_x$, $G_y$, Magnitude Aproximada e Magnitude Euclidiana):
-```bash
-java -jar target/pdi-lab.jar --input images/input/Kurama.jpg --output images/output/sobel.jpg --operation sobel --borda replicar
-```
+* **Inspecionar metadados:**
+  ```bash
+  java -jar target/pdi-lab.jar --input images/input/img.jpg --operation inspect
+  ```
+* **Cópia exata:**
+  ```bash
+  java -jar target/pdi-lab.jar --input images/input/img.jpg --output images/output/copia.jpg --operation copy
+  ```
+* **Brilho:**
+  ```bash
+  java -jar target/pdi-lab.jar --input images/input/img.jpg --operation brilho --value 50
+  ```
+* **Contraste:**
+  ```bash
+  java -jar target/pdi-lab.jar --input images/input/img.jpg --operation contraste --value 1.5
+  ```
+* **Negativo:**
+  ```bash
+  java -jar target/pdi-lab.jar --input images/input/img.jpg --operation negativo
+  ```
+* **Limiarização manual:**
+  ```bash
+  java -jar target/pdi-lab.jar --input images/input/img.jpg --operation limiarizacao --value 128
+  ```
+* **Histograma CSV:**
+  ```bash
+  java -jar target/pdi-lab.jar --input images/input/img.jpg --operation histograma
+  ```
+* **Suavização (Convolução):**
+  ```bash
+  java -jar target/pdi-lab.jar --input images/input/img.jpg --operation suavizacao --filtro ponderada3 --borda replicar
+  ```
+* **Laplaciano e Sobel:**
+  ```bash
+  java -jar target/pdi-lab.jar --input images/input/img.jpg --operation laplaciano
+  ```
+  ```bash
+  java -jar target/pdi-lab.jar --input images/input/img.jpg --operation sobel
+  ```
