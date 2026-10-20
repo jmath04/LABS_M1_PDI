@@ -2,7 +2,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class LabM1 {
+public class LabM1_1 {
     public static void Inspect(String img) {
         try {
             File arquivo = new File(img);

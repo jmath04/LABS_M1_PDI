@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 
-public class LabM2 {
+public class LabM1_2 {
 
     private static int clamp(int valor) {
         if (valor > 255) return 255;

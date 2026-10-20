@@ -2,7 +2,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
-public class LabM3 {
+public class LabM1_3 {
 
     // Guarda de saturação final
     private static int clamp(int valor) {
